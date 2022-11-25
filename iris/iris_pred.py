@@ -6,7 +6,7 @@ import joblib
 app = FastAPI()
 iris_classes = ['Setosa', 'Versicolour', 'Virginica']
 
-model = joblib.load('model/iris_classifier.joblib')
+model = joblib.load('/app/iris_classifier.joblib')
 
 class IrisModelInput(BaseModel):
     """Input data type for prediction"""

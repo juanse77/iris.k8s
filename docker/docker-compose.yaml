@@ -1,0 +1,20 @@
+version: "1.0"
+services:
+  iris:
+    labels:
+      - com.host.description=iris-api
+    image: juanse77/iris-image
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+    restart: unless-stopped
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 1024M
