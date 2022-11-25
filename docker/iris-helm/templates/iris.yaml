@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deploy
+  labels:
+  {{- range $key, $val := .Values.labels }}
+    {{ $key }}: {{ $val }}
+  {{- end }}
+  namespace: {{ .Values.namespace }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- range $key, $val := .Values.labels }}
+      {{ $key }}: {{ $val }}
+    {{- end }}
+  template:
+    metadata:
+      labels:
+      {{- range $key, $val := .Values.labels }}
+        {{ $key }}: {{ $val }}
+      {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-service
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpus }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.reservations.cpus }}
+              memory: {{ .Values.resources.reservations.memory }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-http
+  labels:
+  {{- range $key, $val := .Values.labels }}
+    {{ $key }}: {{ $val }}
+  {{- end }}
+spec:
+  type: NodePort
+  ports:
+    - port: 8000
+      nodePort: {{ .Values.service.nodeport }}
+      protocol: TCP
+  selector:
+  {{- range $key, $val := .Values.labels }}
+    {{ $key }}: {{ $val }}
+  {{- end }}
