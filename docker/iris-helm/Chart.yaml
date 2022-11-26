@@ -3,6 +3,6 @@ name: iris-helm
 description: A Helm chart to contain one API for Iris classification
 
 type: application
-version: 0.1.0
+version: 1.0.0
 
 appVersion: 1.0.1
