@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "iris"
-version = "1.0.3"
+version = "1.0.4"
 description = ""
 authors = ["Juan Sebastián Ramírez Artiles <juanseraar@hotmail.com>"]
 readme = "README.md"
