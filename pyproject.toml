@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "iris"
-version = "1.0.4"
+version = "1.0.5"
 description = ""
 authors = ["Juan Sebastián Ramírez Artiles <juanseraar@hotmail.com>"]
 readme = "README.md"
@@ -20,6 +20,7 @@ mypy = "^0.991"
 pytest = "^7.2.0"
 httpx = "^0.23.1"
 coverage = "^6.5.0"
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core"]
